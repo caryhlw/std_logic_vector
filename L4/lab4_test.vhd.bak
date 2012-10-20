@@ -1,8 +1,6 @@
 --Amitoj Sandhu 78677093
 --Cary Wong ???????
 
---Added this line to test if GITHUB is working.
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use ieee.std_logic_arith.all;
