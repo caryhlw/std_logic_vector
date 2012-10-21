@@ -57,18 +57,33 @@ begin
 				VGA_BLANK => VGA_BLANK, 
 				VGA_SYNC => VGA_SYNC, 
 				VGA_CLK => VGA_CLK);
-				
-	process (CLOCK_50)
-  variable counter : integer;
-  begin
-    if (CLOCK_50'event and CLOCK_50 = '1') then
-      counter := counter + 1;
-      if (counter = 2000000) then
-        enable <= '1';
-      end if;
-    end if;
-  end process;
-  
-  
 
+  process (CLOCK_50)
+    variable counter : integer;
+    begin
+      if (CLOCK_50'event and CLOCK_50 = '1') then
+        counter := counter + 1;
+        if (counter = 2000000) then
+          enable <= '1';
+        end if;
+      end if;
+    end process;
+    
+  process (CLOCK_50)
+    begin
+      case present_state is
+      when drawA =>
+        if (enable = '1') then
+          present_state := drawB;
+          enable <= '0';
+        end if;
+      when drawB =>
+        present_state := delA;
+      when delA =>
+        present_state := delB;
+      when delB =>
+        present_state := drawA;
+      end case;
+    end process;
+    
 end rtl;
