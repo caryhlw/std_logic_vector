@@ -70,6 +70,8 @@ begin
     end process;
     
   process (CLOCK_50)
+    type state is (drawA, drawB, delA, delB);
+    variable present_state : state := drawA;
     begin
       case present_state is
       when drawA =>
