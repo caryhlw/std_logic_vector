@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
-use ieee.numeric_std.all;
+use IEEE.STD_LOGIC_ARITH.all;
+--use ieee.numeric_std.all;
 
 entity lab4_test is
 port(	 CLOCK_50 : in std_logic;
@@ -70,20 +71,68 @@ begin
     end process;
     
   process (CLOCK_50)
+    variable A_x : integer;
+    variable A_y : integer;
+    
+    variable B_x : integer;
+    variable B_y : integer;
+    
+    variable temp_A_x : integer;
+    variable temp_A_y : integer;
+    
+    variable temp_B_x : integer;
+    variable temp_B_y : integer;
+    
+    variable A_dx : integer;
+    variable A_dy : integer;
+    
+    variable B_dx : integer;
+    variable B_dy : integer;
+    
     type state is (drawA, drawB, delA, delB);
     variable present_state : state := drawA;
     begin
       case present_state is
       when drawA =>
         if (enable = '1') then
+          temp_A_x := A_x;
+          temp_A_y := A_y;
+          if ((A_x >= 160) or (A_x <= 0)) then
+            A_dx := -A_dx;
+          end if;
+          if ((A_y >= 120) or (A_y <= 0)) then
+            A_dy := -A_dy;
+          end if;
+          A_x := A_x + A_dx;
+          A_y := A_y + A_dy;
+          x <= conv_std_logic_vector(A_x, 8);
+          y <= conv_std_logic_vector(A_y, 7);
           present_state := drawB;
           enable <= '0';
         end if;
       when drawB =>
+        temp_B_x := B_x;
+        temp_B_y := B_y;
+        if ((B_x >= 160) or (B_y <= 0)) then
+          B_dx := -B_dx;
+        end if;
+        if ((B_y >= 120) or (B_y <= 0)) then
+          B_dy := -B_dy;
+        end if;
+        A_x := A_x + A_dx;
+        A_y := A_y + A_dy;
+        x <= conv_std_logic_vector(B_x, 8);
+        y <= conv_std_logic_vector(B_y, 7);
         present_state := delA;
       when delA =>
+        colour <= "000";
+        x <= conv_std_logic_vector(temp_A_x, 8);
+        y <= conv_std_logic_vector(temp_A_y, 7);
         present_state := delB;
       when delB =>
+        colour <= "000";
+        x <= conv_std_logic_vector(temp_B_x, 8);
+        y <= conv_std_logic_vector(temp_B_y, 7);
         present_state := drawA;
       end case;
     end process;
