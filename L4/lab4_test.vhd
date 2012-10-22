@@ -1,3 +1,6 @@
+--Amitoj Sandhu 78677093
+--Cary Wong 19096072
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
