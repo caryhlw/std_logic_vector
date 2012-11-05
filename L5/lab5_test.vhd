@@ -82,6 +82,11 @@ begin
 							x_out => x_out,
 							y_out => y_out);
 
+	x0 <= "01010000";	--80
+	y0 <= "0111100";	--60
+	x1 <=	"01011010";	--90
+	y1 <= "1000110"; 	--70
+	
 	process(plot)
 	begin
 		if (plot'event and plot = '1') then
