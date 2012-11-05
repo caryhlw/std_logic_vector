@@ -74,8 +74,10 @@ begin
         end if;
         
 		  --Writing next point
-        x_out <= var_x0;
-        y_out <= var_y0;
+        --x_out <= var_x0;
+        --y_out <= var_y0;
+		  x_out <= "01100100"; --100
+		  y_out <= "1100100"; --100
         
 		  --Check for completion (we've shorten the line in question to length 0)
         if ((x0 = x1) OR (y0 = y1)) then
