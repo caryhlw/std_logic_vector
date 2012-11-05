@@ -1,3 +1,5 @@
+--Amitoj 		XXXXXXXX
+--Cary Wong		19096072
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
@@ -9,7 +11,7 @@ ENTITY line is
     signal y0, y1 : in std_logic_vector(6 downto 0);
     signal x_out  : out std_logic_vector(7 downto 0);
     signal y_out  : out std_logic_vector(6 downto 0);
-    signal COMPLETE : out std_logic
+    signal COMPLETE : out std_logic		--Debugging: state indicator
   );
 END;
 
@@ -34,16 +36,20 @@ begin
     
     variable state : state_types;
     begin
+		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
       temp_dy := ('0'&y1) - ('0'&y0);
       
-      dx := std_logic_vector(abs(signed(temp_dx)));
+      --Absolute value and type conversion
+		dx := std_logic_vector(abs(signed(temp_dx)));
       dy := std_logic_vector(abs(signed(temp_dy)));
       
+		--Direction determination (X)
       if (x0 < x1) then sx := 1;
       else              sx := -1;
       end if;
       
+		--Direction determination (Y)
       if (y0 < y1) then sy := 1;
       else              sy := -1;
       end if;
@@ -52,21 +58,26 @@ begin
       
       case state is
       when DRAW =>
+		COMPLETE <= '0';
         e2 := std_logic_vector(signed(err)*2);
         
+		  --Figure next point (X)
         if (e2 > ("00000000" - dy)) then
           err := err - dy;
           var_x0 := x0 + sx;
         end if;
         
+		  --Figure next point (Y)
         if (e2 < dx) then
           err := err + dx;
           var_y0 := y0 + sy;
         end if;
         
+		  --Writing next point
         x_out <= var_x0;
         y_out <= var_y0;
         
+		  --Check for completion (we've shorten the line in question to length 0)
         if ((x0 = x1) OR (y0 = y1)) then
           state := FINISH;
         end if;

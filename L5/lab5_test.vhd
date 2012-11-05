@@ -1,3 +1,5 @@
+--Amitoj 		XXXXXXXX
+--Cary Wong		19096072
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use ieee.numeric_std.all;
@@ -101,6 +103,7 @@ begin
 		end if;
 	end process;
 	
+	--Debugging: state indicator
 	process(COMPLETE)
 	begin
 		if (COMPLETE = '1') then	LEDG(0) <= '1';
