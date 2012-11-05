@@ -34,7 +34,7 @@ begin
     variable err  : std_logic_vector(8 downto 0);
     variable e2   : std_logic_vector(17 downto 0);
     
-    variable state : state_types;
+    variable state : state_types := DRAW;
     begin
 		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
