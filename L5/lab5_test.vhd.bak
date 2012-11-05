@@ -27,13 +27,11 @@ architecture rtl of lab5_test is
 				VGA_HS, VGA_VS, VGA_BLANK, VGA_SYNC, VGA_CLK : out std_logic);
 	end component;
 
-	signal resetn : std_logic;
 	signal x : std_logic_vector(7 downto 0);
 	signal y : std_logic_vector(6 downto 0);
 	signal colour : std_logic_vector(2 downto 0);
 	signal plot : std_logic;
 begin
-	resetn <= key(3);
 	x <= SW(7 downto 0);			-- change these to meet your solution's needs
 	y <= SW(14 downto 8);
 	colour <= SW(17 downto 15);
