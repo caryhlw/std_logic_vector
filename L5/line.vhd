@@ -11,7 +11,8 @@ ENTITY line is
     signal y0, y1 : in std_logic_vector(6 downto 0);
     signal x_out  : out std_logic_vector(7 downto 0);
     signal y_out  : out std_logic_vector(6 downto 0);
-    signal COMPLETE : out std_logic		--Debugging: state indicator
+    signal COMPLETE : out std_logic;		--Debugging: state indicator
+	 signal DEBUG	:	out std_logic_vector(9 downto 0)
   );
 END;
 
@@ -36,6 +37,7 @@ begin
     
     variable state : state_types := DRAW;
     begin
+	 DEBUG(0) <= '1';
 		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
       temp_dy := ('0'&y1) - ('0'&y0);
@@ -58,6 +60,7 @@ begin
       
       case state is
       when DRAW =>
+		DEBUG(1) <= '1';
 		COMPLETE <= '0';
         e2 := std_logic_vector(signed(err)*2);
         
@@ -84,6 +87,7 @@ begin
         
       when FINISH =>
         COMPLETE <= '1';
+		  DEBUG(1) <= '0';
       end case;
     end process;
 end behavioural;
