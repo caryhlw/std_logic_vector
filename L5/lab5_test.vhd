@@ -1,4 +1,4 @@
---Amitoj 		XXXXXXXX
+--Amitoj 		78677093
 --Cary Wong		19096072
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
@@ -55,10 +55,13 @@ architecture rtl of lab5_test is
 	signal y0, y1 : std_logic_vector(6 downto 0);
 	signal x_out  : std_logic_vector(7 downto 0);
 	signal y_out  : std_logic_vector(6 downto 0);
+	
 --End of signal declarations
 
 	signal COMPLETE	:	std_logic;
 	signal DEBUG	:	std_logic_vector(9 downto 0);
+	type state_types is (s1, s2, s3);
+	signal state : state_types;
 
 begin
 	resetn <= key(3);
@@ -102,6 +105,23 @@ begin
 	process(plot)
 	begin
 		if (plot'event and plot = '1') then
+		case state is
+			when s1 =>
+				ledR(5 downto 3) <= "001";
+				x <= x_out;
+				y <= y_out;
+				state <= s2;
+			when s2 =>
+				ledR(5 downto 3) <= "010";
+				x <= x_out;
+				y <= y_out;
+				state <= s3;
+			when s3 =>
+				ledR(5 downto 3) <= "100";
+				--x <= "01100100";
+				--y <= "1100100";
+				state <= s1;
+			end case;
 			x <= x_out;
 			y <= y_out;
 		end if;
@@ -117,7 +137,7 @@ begin
 	
 	process(DEBUG)
 	begin
-		LEDR <= DEBUG;
+		--LEDR <= DEBUG;
 	end process;
 
 end rtl;
