@@ -17,9 +17,9 @@ ENTITY line is
 END;
 
 architecture behavioural of line is
-  type state_types is (DRAW, FINISH);
+  type state_types is (DRAW);
 begin
-  process(x0, y0)
+  process(x0, y0, x1, y1)
     variable var_x0 : std_logic_vector(7 downto 0);
     variable var_y0 : std_logic_vector(6 downto 0);
     
@@ -35,12 +35,13 @@ begin
     variable err  : std_logic_vector(8 downto 0);
     variable e2   : std_logic_vector(17 downto 0);
     
-    variable state : state_types := DRAW;
+	 variable I :integer range 0 to 4;
+    --variable state : state_types := DRAW;
     begin
       
-      case state is
+      --case state is
 
-      when DRAW =>
+      --when DRAW =>
 			 DEBUG(0) <= '1';
 		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
@@ -64,38 +65,38 @@ begin
 		
 		DEBUG(1) <= '1';
 		COMPLETE <= '0';
-      e2 := std_logic_vector(signed(err)*2);
+      
+		
+			e2 := std_logic_vector(signed(err)*2);
         
-		  --Figure next point (X)
-        if (e2 > ("00000000" - dy)) then
-          err := err - dy;
-          var_x0 := x0 + sx;
-        end if;
+			--Figure next point (X)
+			--if (e2 > ("00000000" - dy)) then
+				err := err - dy;
+				var_x0 := x0 + sx;
+			--end if;
         
 		  --Figure next point (Y)
-        if (e2 < dx) then
+        --if (e2 < dx) then
           err := err + dx;
           var_y0 := y0 + sy;
-        end if;
+        --end if;
         
 		  --Writing next point
-        --x_out <= var_x0;
-        --y_out <= var_y0;
-		  x_out <= "01100100"; --100
-		  y_out <= "1100100"; --100
-        
+		  x_out <= var_x0;
+        y_out <= var_y0;
+		        
 		  --Check for completion (we've shorten the line in question to length 0)
         if ((x0 = x1) OR (y0 = y1)) then
-          state := FINISH;
+          --state := FINISH;
         end if;
-        
-      when FINISH =>
-        COMPLETE <= '1';
-		  DEBUG(1) <= '0';
 		
-		when others =>
-			state := DRAW;
+      --when FINISH =>
+      --  COMPLETE <= '1';
+		--  DEBUG(1) <= '0';
+		
+		--when others =>
+		--	state := DRAW;
 			
-      end case;
+      --end case;
     end process;
 end behavioural;

@@ -55,6 +55,8 @@ architecture rtl of lab5_test is
 	signal y0, y1 : std_logic_vector(6 downto 0);
 	signal x_out  : std_logic_vector(7 downto 0);
 	signal y_out  : std_logic_vector(6 downto 0);
+	signal temp_x_out  : std_logic_vector(7 downto 0) := "01010000"; --80
+	signal temp_y_out  : std_logic_vector(6 downto 0) := "0111100";
 	
 --End of signal declarations
 
@@ -87,8 +89,8 @@ begin
 -----------  Your code goes here
 
 --Port map for Line:	
-	L1: line port map(x0 => x0, 
-							y0 => y0,
+	L1: line port map(x0 => temp_x_out, 
+							y0 => temp_y_out,
 							x1 => x1,
 							y1 => y1,
 							x_out => x_out,
@@ -97,47 +99,21 @@ begin
 							DEBUG => DEBUG
 							);
 	colour <= "101"; 		--Purple
-	x0 <= "01010000";	--80
-	y0 <= "0111100";	--60
+	
 	x1 <=	"01011010";	--90
 	y1 <= "1000110"; 	--70
+	
 	
 	process(plot)
 	begin
 		if (plot'event and plot = '1') then
-		case state is
-			when s1 =>
-				ledR(5 downto 3) <= "001";
-				x <= x_out;
-				y <= y_out;
-				state <= s2;
-			when s2 =>
-				ledR(5 downto 3) <= "010";
-				x <= x_out;
-				y <= y_out;
-				state <= s3;
-			when s3 =>
-				ledR(5 downto 3) <= "100";
-				--x <= "01100100";
-				--y <= "1100100";
-				state <= s1;
-			end case;
-			x <= x_out;
-			y <= y_out;
+		
+		temp_x_out <= x_out;
+		temp_y_out <= y_out;
+		x <= x_out;
+		y <= y_out;
 		end if;
 	end process;
-	
-	--Debugging: state indicator
-	process(COMPLETE)
-	begin
-		if (COMPLETE = '1') then	LEDG(0) <= '1';
-		else								LEDG(0) <= '0';
-		end if;
-	end process;
-	
-	process(DEBUG)
-	begin
-		--LEDR <= DEBUG;
-	end process;
+
 
 end rtl;
