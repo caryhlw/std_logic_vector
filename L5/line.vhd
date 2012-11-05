@@ -63,7 +63,7 @@ begin
       when DRAW =>
 		DEBUG(1) <= '1';
 		COMPLETE <= '0';
-        e2 := std_logic_vector(signed(err)*2);
+      e2 := std_logic_vector(signed(err)*2);
         
 		  --Figure next point (X)
         if (e2 > ("00000000" - dy)) then
@@ -91,6 +91,10 @@ begin
       when FINISH =>
         COMPLETE <= '1';
 		  DEBUG(1) <= '0';
+		
+		when others =>
+			state := DRAW;
+			
       end case;
     end process;
 end behavioural;
