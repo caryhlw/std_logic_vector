@@ -1,4 +1,4 @@
---Amitoj 		XXXXXXXX
+--Amitoj 		78677093
 --Cary Wong		19096072
 library ieee;
 use ieee.std_logic_1164.all;
