@@ -53,7 +53,7 @@ begin
       when DRAW =>
         e2 := std_logic_vector(signed(err)*2);
         
-        if (e2 > -dy) then
+        if (e2 > ("00000000" - dy)) then
           err := err - dy;
           var_x0 := x0 + sx;
         end if;
