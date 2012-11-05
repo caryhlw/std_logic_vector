@@ -28,6 +28,9 @@ begin
     variable sx : integer;
     variable sy : integer;
     
+    variable err  : std_logic_vector(8 downto 0);
+    variable e2   : std_logic_vector(9 downto 0);
+    
     variable state : state_types;
     begin
       temp_dx := ('0'&x1) - ('0'&x0);
@@ -36,25 +39,36 @@ begin
       dx := std_logic_vector(abs(signed(temp_dx)));
       dy := std_logic_vector(abs(signed(temp_dy)));
       
-      if (x0 < x1) then
-        sx := 1;
-      else
-        sx := -1;
+      if (x0 < x1) then sx := 1;
+      else              sx := -1;
       end if;
       
-      if (y0 < y1) then
-        sy := 1;
-      else
-        sy := -1;
+      if (y0 < y1) then sy := 1;
+      else              sy := -1;
       end if;
+      
+      err := dx - '0'&dy;
       
       case state is
       when DRAW =>
+        e2 := 2*err;
+        
+        if (e2 > -dy) then
+          err := err - dy;
+          var_x0 := x0 + sx;
+        end if;
+        
+        if (e2 < dx) then
+          err := err + dx;
+          var_y0 := y0 + sy;
+        end if;
+        
         x_out <= var_x0;
         y_out <= var_y0;
         
         if ((x0 = x1) OR (y0 = y1)) then
           state := FINISH;
+      
       when FINISH =>
         --some logic
       end case;
