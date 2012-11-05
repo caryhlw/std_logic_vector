@@ -78,20 +78,20 @@ begin
 -----------  Your code goes here
 
 --Port map for Line:	
-	L1: port map(	x0 => x0, 
-						y0 => y0,
-						x1 => x1,
-						y1 => y1,
-						x_out => x_out,
-						y_out => y_out);
+	L1: line port map(x0 => x0, 
+							y0 => y0,
+							x1 => x1,
+							y1 => y1,
+							x_out => x_out,
+							y_out => y_out);
 
 	process(plot)
 	begin
-		if (port'event and port = '1') then
+		if (plot'event and plot = '1') then
 			x <= x_out;
 			y <= y_out;
 		end if;
-	end process
+	end process;
 
 
 end rtl;
