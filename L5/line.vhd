@@ -16,6 +16,9 @@ architecture behavioural of line is
   type state_types is (DRAW, FINISH);
 begin
   process(x0, y0)
+    variable var_x0 : std_logic_vector(7 downto 0);
+    variable var_y0 : std_logic_vector(6 downto 0);
+    
     variable dx : std_logic_vector(8 downto 0);
     variable dy : std_logic_vector(7 downto 0);
     
@@ -27,25 +30,28 @@ begin
     
     variable state : state_types;
     begin
+      temp_dx := ('0'&x1) - ('0'&x0);
+      temp_dy := ('0'&y1) - ('0'&y0);
+      
+      dx := std_logic_vector(abs(signed(temp_dx)));
+      dy := std_logic_vector(abs(signed(temp_dy)));
+      
+      if (x0 < x1) then
+        sx := 1;
+      else
+        sx := -1;
+      end if;
+      
+      if (y0 < y1) then
+        sy := 1;
+      else
+        sy := -1;
+      end if;
+      
       case state is
       when DRAW =>
-        temp_dx := ('0'&x1) - ('0'&x0);
-        temp_dy := ('0'&y1) - ('0'&y0);
-      
-        dx := std_logic_vector(abs(signed(temp_dx)));
-        dy := std_logic_vector(abs(signed(temp_dy)));
-      
-        if (x0 < x1) then
-          sx := 1;
-        else
-          sx := -1;
-        end if;
-      
-        if (y0 < y1) then
-          sy := 1;
-        else
-          sy := -1;
-        end if;
+        x_out <= var_x0;
+        y_out <= var_y0;
         
         if ((x0 = x1) OR (y0 = y1)) then
           state := FINISH;
