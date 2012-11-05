@@ -53,9 +53,6 @@ architecture rtl of lab5_test is
 
 begin
 	resetn <= key(3);
-	x <= SW(7 downto 0);			-- change these to meet your solution's needs
-	y <= SW(14 downto 8);
-	colour <= SW(17 downto 15);
 	plot <= not KEY(0);
 	vga_u0 : vga_adapter
 	generic map(RESOLUTION => "160x120")		---- Sets the resolution of display (as per vga_adapter.v description)
