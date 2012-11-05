@@ -11,7 +11,8 @@ port(	 	CLOCK_50 : in std_logic;
 		VGA_VS : out std_logic;
 		VGA_BLANK : out std_logic;
 		VGA_SYNC : out std_logic;
-		VGA_CLK  : out std_logic);
+		VGA_CLK  : out std_logic;
+		LEDG	:	out std_logic_vector(7 downto 0));
 end lab5_test;
 
 architecture rtl of lab5_test is
@@ -30,10 +31,11 @@ architecture rtl of lab5_test is
 	
 	Component line is
 	PORT(
-		signal x0, x1 : in std_logic_vector(7 downto 0);
-		signal y0, y1 : in std_logic_vector(6 downto 0);
-		signal x_out  : out std_logic_vector(7 downto 0);
-		signal y_out  : out std_logic_vector(6 downto 0)
+		signal x0, x1	: in std_logic_vector(7 downto 0);
+		signal y0, y1	: in std_logic_vector(6 downto 0);
+		signal x_out	: out std_logic_vector(7 downto 0);
+		signal y_out	: out std_logic_vector(6 downto 0);
+		signal COMPLETE: out std_logic
 	);
 	end component;
 --End of component declarations.
@@ -50,6 +52,8 @@ architecture rtl of lab5_test is
 	signal x_out  : std_logic_vector(7 downto 0);
 	signal y_out  : std_logic_vector(6 downto 0);
 --End of signal declarations
+
+	signal COMPLETE	:	std_logic;
 
 begin
 	resetn <= key(3);
@@ -80,7 +84,9 @@ begin
 							x1 => x1,
 							y1 => y1,
 							x_out => x_out,
-							y_out => y_out);
+							y_out => y_out,
+							COMPLETE => COMPLETE
+							);
 
 	process(plot)
 	begin
@@ -89,6 +95,12 @@ begin
 			y <= y_out;
 		end if;
 	end process;
-
+	
+	process(COMPLETE)
+	begin
+		if (COMPLETE = '1') then	LEDG(0) <= '1';
+		else								LEDG(0) <= '0';
+		end if;
+	end process;
 
 end rtl;
