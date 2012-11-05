@@ -15,6 +15,7 @@ port(	 	CLOCK_50 : in std_logic;
 end lab5_test;
 
 architecture rtl of lab5_test is
+--Component declarations here:	
 	component vga_adapter				---- Component from the Verilog file: vga_adapter.v
 		generic(RESOLUTION: string);
 		port (	resetn : in std_logic;
@@ -35,19 +36,30 @@ architecture rtl of lab5_test is
 		signal y_out  : out std_logic_vector(6 downto 0)
 	);
 	end component;
+--End of component declarations.
 
+--Signal declarations here:
 	signal resetn : std_logic;
 	signal x : std_logic_vector(7 downto 0);
 	signal y : std_logic_vector(6 downto 0);
 	signal colour : std_logic_vector(2 downto 0);
 	signal plot : std_logic;
+--End of signal declarations
+
 begin
 	resetn <= key(3);
 	x <= SW(7 downto 0);			-- change these to meet your solution's needs
 	y <= SW(14 downto 8);
 	colour <= SW(17 downto 15);
 	plot <= not KEY(0);
-	vga_u0 : vga_adapter 
+	vga_u0 : vga_adapter
+	
+--Declared signals to map to line here:	
+	signal x0, x1 : in std_logic_vector(7 downto 0);
+	signal y0, y1 : in std_logic_vector(6 downto 0);
+	signal x_out  : out std_logic_vector(7 downto 0);
+	signal y_out  : out std_logic_vector(6 downto 0);
+	
 	generic map(RESOLUTION => "160x120")		---- Sets the resolution of display (as per vga_adapter.v description)
 	port map(resetn => resetn, 
 				clock => CLOCK_50, 
@@ -66,6 +78,19 @@ begin
 
 				
 -----------  Your code goes here
+
+--Port map for Line:	
+	L1: port map(	x0 => x0, 
+						y0 => y0,
+						x1 => x1,
+						y1 => y1,
+						x_out => x_out,
+						y_out => y_out);
+
+	process(plot)
+	begin
+	x <= x_out;
+	y <= y_out;
 
 
 end rtl;
