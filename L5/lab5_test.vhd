@@ -44,6 +44,11 @@ architecture rtl of lab5_test is
 	signal y : std_logic_vector(6 downto 0);
 	signal colour : std_logic_vector(2 downto 0);
 	signal plot : std_logic;
+	--Declared signals to map to line here:		
+	signal x0, x1 : std_logic_vector(7 downto 0);
+	signal y0, y1 : std_logic_vector(6 downto 0);
+	signal x_out  : std_logic_vector(7 downto 0);
+	signal y_out  : std_logic_vector(6 downto 0);
 --End of signal declarations
 
 begin
@@ -53,13 +58,6 @@ begin
 	colour <= SW(17 downto 15);
 	plot <= not KEY(0);
 	vga_u0 : vga_adapter
-	
---Declared signals to map to line here:	
-	signal x0, x1 : in std_logic_vector(7 downto 0);
-	signal y0, y1 : in std_logic_vector(6 downto 0);
-	signal x_out  : out std_logic_vector(7 downto 0);
-	signal y_out  : out std_logic_vector(6 downto 0);
-	
 	generic map(RESOLUTION => "160x120")		---- Sets the resolution of display (as per vga_adapter.v description)
 	port map(resetn => resetn, 
 				clock => CLOCK_50, 
@@ -89,8 +87,11 @@ begin
 
 	process(plot)
 	begin
-	x <= x_out;
-	y <= y_out;
+		if (port'event and port = '1') then
+			x <= x_out;
+			y <= y_out;
+		end if;
+	end process
 
 
 end rtl;
