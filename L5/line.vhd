@@ -37,7 +37,11 @@ begin
     
     variable state : state_types := DRAW;
     begin
-	 DEBUG(0) <= '1';
+      
+      case state is
+
+      when DRAW =>
+			 DEBUG(0) <= '1';
 		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
       temp_dy := ('0'&y1) - ('0'&y0);
@@ -57,10 +61,7 @@ begin
       end if;
       
       err := dx - ('0'&dy);
-      
-      case state is
-
-      when DRAW =>
+		
 		DEBUG(1) <= '1';
 		COMPLETE <= '0';
       e2 := std_logic_vector(signed(err)*2);
