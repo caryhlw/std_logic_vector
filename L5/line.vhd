@@ -51,7 +51,7 @@ begin
       
       case state is
       when DRAW =>
-        e2 := 2*err;
+        e2 := std_logic_vector(signed(err)*2);
         
         if (e2 > -dy) then
           err := err - dy;
