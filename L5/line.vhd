@@ -19,19 +19,19 @@ begin
     variable dx : std_logic_vector(8 downto 0);
     variable dy : std_logic_vector(7 downto 0);
     
-    --variable temp_dx : std_logic_vector(8 downto 0);
-    --variable temp_dy : std_logic_vector(7 downto 0);
+    variable temp_dx : std_logic_vector(8 downto 0);
+    variable temp_dy : std_logic_vector(7 downto 0);
     
     variable sx : integer;
     variable sy : integer;
     
     variable state : state_types;
     begin
-      --temp_dx := ();
-      --temp_dy := ();
+      temp_dx := ('0'&x1) - ('0'&x0);
+      temp_dy := ('0'&y1) - ('0'&y0);
       
-      dx := std_logic_vector(abs(signed('0'&x1 - '0'&x0)));
-      dy := std_logic_vector(abs(signed('0'&y1 - '0'&y0)));
+      dx := std_logic_vector(abs(signed(temp_dx)));
+      dy := std_logic_vector(abs(signed(temp_dy)));
       
       if (x0 < x1) then
         sx := 1;
