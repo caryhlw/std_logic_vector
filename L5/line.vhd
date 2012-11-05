@@ -68,8 +68,9 @@ begin
         
         if ((x0 = x1) OR (y0 = y1)) then
           state := FINISH;
-      
+			end if;
       when FINISH =>
+			
         --some logic
       end case;
     end process;
