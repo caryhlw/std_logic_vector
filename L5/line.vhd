@@ -30,7 +30,7 @@ begin
     variable sy : integer;
     
     variable err  : std_logic_vector(8 downto 0);
-    variable e2   : std_logic_vector(9 downto 0);
+    variable e2   : std_logic_vector(17 downto 0);
     
     variable state : state_types;
     begin
