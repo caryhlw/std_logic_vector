@@ -26,6 +26,15 @@ architecture rtl of lab5_test is
 				VGA_R, VGA_G, VGA_B : out std_logic_vector(9 downto 0);
 				VGA_HS, VGA_VS, VGA_BLANK, VGA_SYNC, VGA_CLK : out std_logic);
 	end component;
+	
+	Component line is
+	PORT(
+		signal x0, x1 : in std_logic_vector(7 downto 0);
+		signal y0, y1 : in std_logic_vector(6 downto 0);
+		signal x_out  : out std_logic_vector(7 downto 0);
+		signal y_out  : out std_logic_vector(6 downto 0)
+	);
+	end component;
 
 	signal resetn : std_logic;
 	signal x : std_logic_vector(7 downto 0);
@@ -54,7 +63,8 @@ begin
 				VGA_BLANK => VGA_BLANK, 
 				VGA_SYNC => VGA_SYNC, 
 				VGA_CLK => VGA_CLK);
------------
+
+				
 -----------  Your code goes here
 
 
