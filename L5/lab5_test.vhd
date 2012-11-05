@@ -37,9 +37,7 @@ architecture rtl of lab5_test is
 		signal x0, x1	: in std_logic_vector(7 downto 0);
 		signal y0, y1	: in std_logic_vector(6 downto 0);
 		signal x_out	: out std_logic_vector(7 downto 0);
-		signal y_out	: out std_logic_vector(6 downto 0);
-		signal COMPLETE: out std_logic;
-		signal DEBUG	:	out std_logic_vector(9 downto 0)
+		signal y_out	: out std_logic_vector(6 downto 0)
 	);
 	end component;
 --End of component declarations.
@@ -55,13 +53,11 @@ architecture rtl of lab5_test is
 	signal y0, y1 : std_logic_vector(6 downto 0);
 	signal x_out  : std_logic_vector(7 downto 0);
 	signal y_out  : std_logic_vector(6 downto 0);
-	signal temp_x_out  : std_logic_vector(7 downto 0) := "01010000"; --80
-	signal temp_y_out  : std_logic_vector(6 downto 0) := "0111100";
+	signal temp_x_out  : std_logic_vector(7 downto 0) := "01010000"; --80 --Inital Value of X
+	signal temp_y_out  : std_logic_vector(6 downto 0) := "0111100";  --60 --Inital Value of Y
 	
 --End of signal declarations
 
-	signal COMPLETE	:	std_logic;
-	signal DEBUG	:	std_logic_vector(9 downto 0);
 	type state_types is (s1, s2, s3);
 	signal state : state_types;
 
@@ -94,12 +90,9 @@ begin
 							x1 => x1,
 							y1 => y1,
 							x_out => x_out,
-							y_out => y_out,
-							COMPLETE => COMPLETE,
-							DEBUG => DEBUG
+							y_out => y_out
 							);
 	colour <= "101"; 		--Purple
-	
 	x1 <=	"01011010";	--90
 	y1 <= "1000110"; 	--70
 	

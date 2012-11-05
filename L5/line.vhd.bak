@@ -10,7 +10,9 @@ ENTITY line is
     signal x0, x1 : in std_logic_vector(7 downto 0);
     signal y0, y1 : in std_logic_vector(6 downto 0);
     signal x_out  : out std_logic_vector(7 downto 0);
-    signal y_out  : out std_logic_vector(6 downto 0)
+    signal y_out  : out std_logic_vector(6 downto 0);
+    signal COMPLETE : out std_logic;		--Debugging: state indicator
+	 signal DEBUG	:	out std_logic_vector(9 downto 0)
   );
 END;
 
@@ -33,8 +35,14 @@ begin
     variable err  : std_logic_vector(8 downto 0);
     variable e2   : std_logic_vector(17 downto 0);
     
+	 variable I :integer range 0 to 4;
+    --variable state : state_types := DRAW;
     begin
       
+      --case state is
+
+      --when DRAW =>
+			 DEBUG(0) <= '1';
 		--Point difference
       temp_dx := ('0'&x1) - ('0'&x0);
       temp_dy := ('0'&y1) - ('0'&y0);
@@ -54,20 +62,24 @@ begin
       end if;
       
       err := dx - ('0'&dy);
-		    
+		
+		DEBUG(1) <= '1';
+		COMPLETE <= '0';
+      
+		
 			e2 := std_logic_vector(signed(err)*2);
         
 			--Figure next point (X)
-			if (e2 > ("00000000" - dy)) then
+			--if (e2 > ("00000000" - dy)) then
 				err := err - dy;
 				var_x0 := x0 + sx;
-			end if;
+			--end if;
         
 		  --Figure next point (Y)
-        if (e2 < dx) then
+        --if (e2 < dx) then
           err := err + dx;
           var_y0 := y0 + sy;
-        end if;
+        --end if;
         
 		  --Writing next point
 		  x_out <= var_x0;
@@ -78,5 +90,13 @@ begin
           --state := FINISH;
         end if;
 		
+      --when FINISH =>
+      --  COMPLETE <= '1';
+		--  DEBUG(1) <= '0';
+		
+		--when others =>
+		--	state := DRAW;
+			
+      --end case;
     end process;
 end behavioural;
