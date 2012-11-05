@@ -8,7 +8,8 @@ ENTITY line is
     signal x0, x1 : in std_logic_vector(7 downto 0);
     signal y0, y1 : in std_logic_vector(6 downto 0);
     signal x_out  : out std_logic_vector(7 downto 0);
-    signal y_out  : out std_logic_vector(6 downto 0)
+    signal y_out  : out std_logic_vector(6 downto 0);
+    signal COMPLETE : out std_logic
   );
 END;
 
@@ -47,7 +48,7 @@ begin
       else              sy := -1;
       end if;
       
-      err := dx - '0'&dy;
+      err := dx - ('0'&dy);
       
       case state is
       when DRAW =>
@@ -68,9 +69,10 @@ begin
         
         if ((x0 = x1) OR (y0 = y1)) then
           state := FINISH;
-      
+        end if;
+        
       when FINISH =>
-        --some logic
+        COMPLETE <= '1';
       end case;
     end process;
 end behavioural;
