@@ -89,7 +89,7 @@ begin
 							y_out => y_out,
 							COMPLETE => COMPLETE
 							);
-
+	colour <= "101"; 		--Purple
 	x0 <= "01010000";	--80
 	y0 <= "0111100";	--60
 	x1 <=	"01011010";	--90
